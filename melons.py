@@ -1,5 +1,6 @@
 """Classes for melon orders."""
 from random import randint
+import datetime as dt
 
 class AbstractMelonOrder():
     """Abstract Melon Order Class"""
@@ -12,7 +13,22 @@ class AbstractMelonOrder():
         self.base_price = None
 
     def get_base_price(self):
-        return randint(5, 10)
+        base_price = randint(5, 10)
+
+        current_datetime = dt.datetime.now()
+        #current_date = current_datetime.date()
+        current_time = current_datetime.time()
+        
+        day_of_week = current_datetime.weekday()
+        
+        morning_8am = dt.time(hour=8)
+        morning_11am = dt.time(hour=11)
+
+        if morning_8am <= current_time < morning_11am and 0 <= day_of_week <= 4:
+            base_price += 4
+
+        return base_price
+
 
     def get_total(self):
         """Calculate price, including tax."""
